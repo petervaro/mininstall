@@ -1,0 +1,86 @@
+MININSTALL
+==========
+
+The ministall package containes small installation script, predefined
+definitions and configuration files. It can be used to compiler, link and
+install a program distributed as source, wothout the actual need of a build
+system -- one less dependency to worry about when distributing a package.
+
+Ministall is part of the cini suite, so one could use it via the initializer
+script implicitly, instead of following the step-by-step guide below!
+More info about cini: https://github.com/petervaro/cini
+
+
+Setup
+-----
+
+    $ cd path/to/project
+    $ git init
+    $ git submodule add https://github.com/petervaro/mininstall.git
+    $ cp mininstall/install.sh
+    $ # edit file, like: nano install.sh
+    $ chmod +x install.sh
+    $ bash install.sh
+
+    # If special settings are required, one can copy and modify the following
+    # configuration file:
+    $ cp mininstall/install.conf
+    $ # edit file, like: nano install.conf
+
+
+install.sh
+----------
+
+This script shall import the definitions first, like so:
+
+    source "mininstall/defs.sh";
+
+after that, the function 'mininstall' will be available. The function, will take
+one mandatroy and one optional positional arguments. The first one is the
+include directory's name (include/<project-name>). If the second argument is not
+defined, then it will use the first argument to name the library it will build,
+(lib<project-name>), though if it is defined, it will use that name instead.
+
+WARNING: this API will change in the future! The mininstall function will have
+different sub-commands, for example: build_lib and build_bin.
+
+
+install.conf
+------------
+
+This configuration file has very strict rules, only the following syntax would
+work:
+
+    variable=value
+
+without any spaces around the = (equal) sign. The available values, that is,
+the values which will be used by the predefined methods, are:
+
+    *_compiler
+    *_include
+    *_library
+
+where * (star) can be: unix, mac and windows. The defined values can be
+overwritten by the end-user by passing certain flags during the invocation of
+the install.sh. For more information on the available options run:
+
+    install.sh --help
+
+
+LICENSE
+-------
+
+Copyright (C) 2016 Peter Varo
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+this program, most likely a file in the root directory, called 'LICENSE'.
+If not, see <http://www.gnu.org/licenses>.

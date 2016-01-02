@@ -1,0 +1,14 @@
+# Extensions
+*.DS_Store
+*.pyc
+*.pyo
+*.sublime-workspace
+*.sublime-project
+*.so
+*.o
+
+# Folders
+build-*
+
+# Files
+README.html
