@@ -22,6 +22,9 @@ Setup
     $ chmod +x install.sh
     $ bash install.sh
 
+    # On some systems install.sh will require sude (for cp and rm)
+    $ sudo bash install.sh
+
     # If special settings are required, one can copy and modify the following
     # configuration file:
     $ cp mininstall/install.conf
