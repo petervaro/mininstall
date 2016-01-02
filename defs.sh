@@ -208,11 +208,11 @@ __build()
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 __remove()
 {
-    printf "    Removing header(s) and directory '$include/$1' ... ";
-    rm -rf "$include/$1";
+    sudo printf "    Removing header(s) and directory '$include/$1' ... ";
+    sudo rm -rf "$include/$1";
     printf "DONE\n";
     printf "    Removing librari(es) '$library/lib$2*' ... ";
-    rm -f "$library/lib$2*";
+    sudo rm -f "$library/lib$2*";
     printf "DONE\n";
 }
 
@@ -220,7 +220,7 @@ __remove()
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 __install()
 {
-    printf "    Copying header(s) to '$include/$1' ... ";
+    sudo printf "    Copying header(s) to '$include/$1' ... ";
     sudo cp -r include/$1 $include;
     printf "DONE\n";
     printf "    Copying librari(es) to '$library/lib$2*' ... ";
@@ -245,7 +245,7 @@ mininstall()
     if [ -n "$remove" ];
     then
         printf "[2] Uninstalling lib$lib_name:\n";
-        sudo __remove $include_dir $lib_name;
+        __remove $include_dir $lib_name;
         printf " -> lib$lib_name successfully removed!\n";
     else
         # Build library
@@ -255,7 +255,7 @@ mininstall()
 
         # Install library
         printf "[3] Installing lib$lib_name:\n";
-        sudo __install $include_dir $lib_name;
+        __install $include_dir $lib_name;
         printf " -> lib$lib_name successfully installed!\n";
     fi;
 }
