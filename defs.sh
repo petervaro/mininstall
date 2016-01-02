@@ -49,7 +49,7 @@ remove="";
 # Update values from config
 if [ -f "$CONFIG_FILE" ];
 then
-    printf "[0] Reading configuration file... ";
+    printf "[0] Reading configuration file ... ";
     # If free and UNIX-like platform
     if [ "$OSTYPE" == "linux-gnu" ] || [ "$OSTYPE" == "freebsd"* ];
     then
@@ -137,7 +137,7 @@ fi;
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 # Parse arguments
-printf "[1] Reading passed arguments... ";
+printf "[1] Reading passed arguments ... ";
 while [ -n "$1" ];
 do
     if [ "$1" == "-c" ] || [ "$1" == "--compiler" ];
@@ -189,15 +189,15 @@ build()
     done;
 
     # Create both static and dynamic libraries
-    printf "    Creating temporary dir '$BUILD_DIR/lib'... ";
+    printf "    Creating temporary dir '$BUILD_DIR/lib' ... ";
     mkdir -p $BUILD_DIR/lib;
     printf "DONE\n";
-    printf "    Creating shared library '$BUILD_DIR/lib/lib$1.so'... ";
+    printf "    Creating shared library '$BUILD_DIR/lib/lib$1.so' ... ";
     $compiler -shared \
               -o $BUILD_DIR/lib/lib$1.so \
               $BUILD_DIR/build/*.o;
     printf "DONE\n";
-    printf "    Creating static library '$BUILD_DIR/lib/lib$1.a'... ";
+    printf "    Creating static library '$BUILD_DIR/lib/lib$1.a' ... ";
     ar rcs \
        -o $BUILD_DIR/lib/lib$1.a \
        $BUILD_DIR/build/*.o;
@@ -221,21 +221,27 @@ mininstall()
     if [ -n "$remove" ];
     then
         printf "[2] Uninstalling lib$lib_name...\n";
+        printf "    Removing header(s) and directory '$include/$include_dir' ... ";
         sudo rm -rf "$include/$include_dir";
+        printf "DONE\n";
+        printf "    Removing librari(es) '$library/lib$lib_name*' ... ";
         sudo rm -f "$library/lib$lib_name*";
-        printf "==> lib$lib_name successfully removed!\n";
+        printf "DONE\n";
+        printf " -> lib$lib_name successfully removed!\n";
     else
         # Build library
         printf "[2] Building lib$lib_name...\n";
         build "$lib_name";
-        printf "==> lib$lib_name successfully built!\n";
+        printf " -> lib$lib_name successfully built!\n";
 
         # Install library
         printf "[3] Installing lib$lib_name...\n";
+        printf "    Copying header(s) to '$include/$include_dir' ... ";
         sudo cp -r include/$include_dir $include;
+        printf "DONE\n";
+        printf "    Copying librari(es) to '$library/lib$lib_name*' ... ";
         sudo cp $BUILD_DIR/lib/lib$lib_name* $library;
-        printf "==> lib$lib_name successfully installed!\n";
-        printf "    $include/$include_dir\n";
-        printf "    $library/lib$lib_name\n";
+        printf "DONE\n";
+        printf " -> lib$lib_name successfully installed!\n";
     fi;
 }
