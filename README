@@ -14,21 +14,25 @@ More info about cini: https://github.com/petervaro/cini
 Setup
 -----
 
+    # Setup mininstaller in a project
     $ cd path/to/project
     $ git init
     $ git submodule add https://github.com/petervaro/mininstall.git
     $ cp mininstall/install.sh
-    $ # edit file, like: nano install.sh
     $ chmod +x install.sh
-    $ bash install.sh
 
-    # On some systems install.sh will require sude (for cp and rm)
-    $ sudo bash install.sh
+    # Customize file
+    $ nano install.sh
+
+    # Run mininstaller
+    $ bash install.sh
 
     # If special settings are required, one can copy and modify the following
     # configuration file:
     $ cp mininstall/install.conf
-    $ # edit file, like: nano install.conf
+
+    # Customize file
+    $ nano install.conf
 
 
 install.sh

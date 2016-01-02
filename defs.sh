@@ -169,13 +169,13 @@ printf "DONE\n";
 
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
-build()
+__build()
 {
     # Compile sources to objects
     mkdir -p $BUILD_DIR/build;
     for source in src/*.c;
     do
-        printf "    Compiling $source... ";
+        printf "    Compiling $source ... ";
         fname=$(basename "$source");
         fname="${fname%.*}";
         $compiler -std=c11 \
@@ -206,6 +206,30 @@ build()
 
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
+__remove()
+{
+    printf "    Removing header(s) and directory '$include/$1' ... ";
+    rm -rf "$include/$1";
+    printf "DONE\n";
+    printf "    Removing librari(es) '$library/lib$2*' ... ";
+    rm -f "$library/lib$2*";
+    printf "DONE\n";
+}
+
+
+#- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
+__install()
+{
+    printf "    Copying header(s) to '$include/$1' ... ";
+    sudo cp -r include/$1 $include;
+    printf "DONE\n";
+    printf "    Copying librari(es) to '$library/lib$2*' ... ";
+    sudo cp $BUILD_DIR/lib/lib$2* $library;
+    printf "DONE\n";
+}
+
+
+#- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 mininstall()
 {
     if [ -z "$1" ];
@@ -221,27 +245,17 @@ mininstall()
     if [ -n "$remove" ];
     then
         printf "[2] Uninstalling lib$lib_name:\n";
-        printf "    Removing header(s) and directory '$include/$include_dir' ... ";
-        rm -rf "$include/$include_dir";
-        printf "DONE\n";
-        printf "    Removing librari(es) '$library/lib$lib_name*' ... ";
-        rm -f "$library/lib$lib_name*";
-        printf "DONE\n";
+        sudo __remove $include_dir $lib_name;
         printf " -> lib$lib_name successfully removed!\n";
     else
         # Build library
         printf "[2] Building lib$lib_name:\n";
-        build "$lib_name";
+        __build "$lib_name";
         printf " -> lib$lib_name successfully built!\n";
 
         # Install library
         printf "[3] Installing lib$lib_name:\n";
-        printf "    Copying header(s) to '$include/$include_dir' ... ";
-        cp -r include/$include_dir $include;
-        printf "DONE\n";
-        printf "    Copying librari(es) to '$library/lib$lib_name*' ... ";
-        cp $BUILD_DIR/lib/lib$lib_name* $library;
-        printf "DONE\n";
+        sudo __install $include_dir $lib_name;
         printf " -> lib$lib_name successfully installed!\n";
     fi;
 }
