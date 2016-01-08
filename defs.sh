@@ -212,7 +212,8 @@ __remove()
     sudo rm -rf "$include/$1";
     printf "DONE\n";
     printf "    Removing librari(es) '$library/lib$2*' ... ";
-    sudo rm -f "$library/lib$2*";
+    sudo rm -f "$library/lib$2.a";
+    sudo rm -f "$library/lib$2.so";
     printf "DONE\n";
 }
 
