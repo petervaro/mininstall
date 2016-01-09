@@ -225,7 +225,7 @@ __install()
     # Copy all headers that does not start with '_'
     for header in `ls include/$1 | grep -v "^_"`;
     do
-        sudo cp include/$1/$header $include;
+        sudo cp include/$1/$header $include/$1;
     done;
     printf "DONE\n";
     printf "    Copying librari(es) to '$library/lib$2*' ... ";
