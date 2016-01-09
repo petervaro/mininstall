@@ -15,24 +15,29 @@ Setup
 -----
 
     # Setup mininstaller in a project
-    $ cd path/to/project
-    $ git init
-    $ git submodule add https://github.com/petervaro/mininstall.git
-    $ cp mininstall/install.sh .
-    $ chmod +x install.sh
+
+        $ cd path/to/project
+        $ git init
+        $ git submodule add https://github.com/petervaro/mininstall.git
+        $ cp mininstall/install.sh .
+        $ chmod +x install.sh
 
     # Customize file
-    $ nano install.sh
+
+        $ nano install.sh
 
     # Run mininstaller
-    $ bash install.sh
+
+        $ bash install.sh
 
     # If special settings are required, one can copy and modify the following
     # configuration file:
-    $ cp mininstall/install.conf .
+
+        $ cp mininstall/install.conf .
 
     # Customize file
-    $ nano install.conf
+
+        $ nano install.conf
 
 
 install.sh

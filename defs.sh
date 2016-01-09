@@ -28,7 +28,7 @@ HELP="\
     \033[1m--remove\033[0m
 
     \033[1m-h\033[0m             Print this text
-    \033[1m--help\033m
+    \033[1m--help\033[0m
 ";
 BUILD_DIR="build-install";
 CONFIG_FILE="install.conf";
