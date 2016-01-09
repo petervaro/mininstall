@@ -222,7 +222,11 @@ __remove()
 __install()
 {
     sudo printf "    Copying header(s) to '$include/$1' ... ";
-    sudo cp -r include/$1 $include;
+    # Copy all headers that does not start with '_'
+    for header in `ls include/$1 | grep -v "^_"`;
+    do
+        sudo cp include/$1/$source $include;
+    done;
     printf "DONE\n";
     printf "    Copying librari(es) to '$library/lib$2*' ... ";
     sudo cp $BUILD_DIR/lib/lib$2* $library;
