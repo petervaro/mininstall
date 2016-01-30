@@ -193,10 +193,10 @@ do
         remove="yes";
     elif [ "$1" == "-h" ] || [ "$1" == "--help" ];
     then
-        printf "$HELP";
+        printf "DONE\n$HELP";
         exit;
     else
-        printf "Invalid argument: $1\n";
+        printf "DONE\nInvalid argument: $1\n";
         exit 1;
     fi;
     shift;

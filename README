@@ -71,6 +71,7 @@ the values which will be used by the predefined methods, are:
     *_compiler
     *_include
     *_library
+    *_standard
 
 where * (star) can be: unix, mac and windows. The defined values can be
 overwritten by the end-user by passing certain flags during the invocation of
