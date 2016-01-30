@@ -44,17 +44,24 @@ set -e;
 compiler="gcc";
 include="/usr/local/include";
 library="/usr/local/lib";
+standard="c11"
 remove="";
 
 # Update values from config
 if [ -f "$CONFIG_FILE" ];
 then
     printf "[0] Reading configuration file ... ";
+
+    # TODO: right now, all variables have to be defined in install.conf (though
+    #       they can be nothing (undefined)) and this behaviour is error prone.
+    #       Make them optional by check if they are present or not, before
+    #       checking their values
+
     # If free and UNIX-like platform
     if [ "$OSTYPE" == "linux-gnu" ] || [ "$OSTYPE" == "freebsd"* ];
     then
         # Set compiler if it is defined in config
-        unix_compiler=`grep "^unix_compiler=.*$" "$CONFIG_FILE"`;
+        unix_compiler=`grep "^unix_compiler=.*$" $CONFIG_FILE`;
         unix_compiler=${unix_compiler:14};
         if [ -n "$unix_compiler" ];
         then
@@ -75,6 +82,14 @@ then
         if [ -n "$unix_library" ];
         then
             library="$unix_library";
+        fi;
+
+        # Set C standard if it is defined in config
+        unix_standard=`grep "^unix_standard=.*$" "$CONFIG_FILE"`;
+        unix_standard=${unix_standard:14};
+        if [ -n "$unix_standard" ];
+        then
+            standard="$unix_standard";
         fi;
 
     # If Mac OS X
@@ -104,6 +119,14 @@ then
             library="$mac_library";
         fi;
 
+        # Set C standard if it is defined in config
+        mac_standard=`grep "^mac_standard=.*$" "$CONFIG_FILE"`;
+        mac_standard=${mac_standard:14};
+        if [ -n "$mac_standard" ];
+        then
+            standard="$mac_standard";
+        fi;
+
     # If windows
     elif [ "$OSTYPE" == "win32" ];
     then
@@ -130,6 +153,19 @@ then
         then
             library="$win_library";
         fi;
+
+        # Set C standard if it is defined in config
+        win_standard=`grep "^win_standard=.*$" "$CONFIG_FILE"`;
+        win_standard=${win_standard:14};
+        if [ -n "$win_standard" ];
+        then
+            standard="$win_standard";
+        fi;
+
+    # If other
+    else
+        printf "This platform is not supported by ministall\n";
+        exit 1;
     fi;
     printf "DONE\n";
 fi;
@@ -178,7 +214,7 @@ __build()
         printf "    Compiling $source ... ";
         fname=$(basename "$source");
         fname="${fname%.*}";
-        $compiler -std=c11 \
+        $compiler -std=$standard \
                   -O3 \
                   -Iinclude \
                   -lpthread \
