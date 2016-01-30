@@ -258,6 +258,8 @@ __remove()
 __install()
 {
     sudo printf "    Copying header(s) to '$include/$1' ... ";
+    # Create destination folder if it is not present
+    sudo mkdir -p $include/$1;
     # Copy all headers that does not start with '_'
     for header in `ls include/$1 | grep -v "^_"`;
     do
