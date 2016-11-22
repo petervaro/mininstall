@@ -279,11 +279,16 @@ mininstall()
     then
         printf "Missing arg(s): mininstall <include_dir> [<lib_name>]";
         exit;
-    elif [ -z "$2" ];
+    else
+        include_dir="$1";
+    fi;
+
+    if [ -z "$2" ];
     then
         lib_name="$1";
+    else
+        lib_name="$2";
     fi;
-    include_dir="$1";
 
     if [ -n "$remove" ];
     then
